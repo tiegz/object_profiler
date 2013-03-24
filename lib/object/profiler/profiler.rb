@@ -1,4 +1,6 @@
-raise "Object::Profiler must be used with Ruby 2.0+" if RUBY_VERSION < "2"
+if not system("dtrace -l -i :::jabberwocky")
+	raise "DTrace not responding. Are you running with sudo?"
+end
 
 require 'object/profiler/version'
 require 'tempfile'
@@ -36,14 +38,15 @@ class Object
 		  def report
 		    puts "\n\n\nReport (#{@tmpfile.path}):"
 		    @tmpfile.rewind
-		    @tmpfile.read.split('-----').last.strip.lines.each do |line|
-		    	file_line_type, amount = line.split("=")
-		    	@results << [amount, file_line_type]
+		    
+		    # TODO: This is only to reverse the order of line & count... necessary?
+		    results = []
+		    @tmpfile.read.strip.lines.each do |line|
+		    	file_line_type, amount = line.split(" ")
+		    	@results << [amount.to_i, file_line_type]
 		    end
-		    @results = @results.sort_by { |line| line[0].to_i }.reverse
-		    @results.each do |result|
-		    	puts "%-10d %s" % result
-		    end
+		    puts @results.map { |r| "%8d %s" % r }.join("\n")
+
 		  	@tmpfile  = nil
 		  end
 		end

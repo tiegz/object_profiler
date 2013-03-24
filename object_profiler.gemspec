@@ -5,7 +5,7 @@ require 'object/profiler/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "object_profiler"
-  spec.version       = ObjectProfiler::VERSION
+  spec.version       = Object::Profiler::VERSION
   spec.authors       = ["Tieg Zaharia"]
   spec.email         = ["tieg.zaharia@gmail.com"]
   spec.description   = %q{Object::Profiler uses DTrace probes in Ruby 2.0 to help instrument your code.}

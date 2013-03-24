@@ -1,6 +1,6 @@
 $: << "lib"
 require 'object/profiler/profiler'
-require "bundler/gem_tasks"
+# require "bundler/gem_tasks"
 
 task :test do
 	puts "Start"
