@@ -1,4 +1,4 @@
-# ObjectProfilerr
+# Object::Profiler
 
 TODO: Write a gem description
 
@@ -6,7 +6,7 @@ TODO: Write a gem description
 
 Add this line to your application's Gemfile:
 
-    gem 'object_profilerr'
+    gem 'object_profiler'
 
 And then execute:
 
@@ -14,7 +14,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install object_profilerr
+    $ gem install object_profiler
 
 ## Usage
 
@@ -33,6 +33,6 @@ TODO: Write usage instructions here
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
-## Useful links
+## Useful DTrace links
 
 1. https://wikis.oracle.com/display/DTrace/Documentation

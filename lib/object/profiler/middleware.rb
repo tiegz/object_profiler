@@ -1,8 +1,12 @@
-# require File.expand_path('../../profiler.rb', __FILE__)
+require ::File.expand_path('../profiler.rb',  __FILE__)
 
 class Object
 	class Profiler
   	class Middleware
+  		def initialize(app)
+  			@app = app
+  		end
+
 	    def call(env)
 				Object::Profiler.track { 
 	      	@app.call(env)

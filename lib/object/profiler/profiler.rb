@@ -2,14 +2,14 @@ if not system("dtrace -l -i :::jabberwocky")
 	raise "DTrace not responding. Are you running with sudo?"
 end
 
-require 'object/profiler/version'
 require 'tempfile'
-require 'pp'
 
 class Object
 	class Profiler
 		class << self
 		  def track
+		  	raise "Object::Profiler.track requires a block." unless block_given?
+
 		  	start
 		  	result = yield
 		  	stop
@@ -39,6 +39,7 @@ class Object
 		  def report
 		    puts "\n\n\nReport (#{@tmpfile.path}):"
 		    @tmpfile.rewind
+		    puts "FILE SIZE IS #{@tmpfile.size}"
 		    
 		    # TODO: This is only to reverse the order of line & count... necessary?
 		    results = []
