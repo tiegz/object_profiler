@@ -9,12 +9,13 @@ require 'pp'
 class Object
 	class Profiler
 		class << self
-
 		  def track
 		  	start
-		  	yield
+		  	result = yield
 		  	stop
 		  	report
+
+		  	return result
 		  end
 
 		  def start
@@ -46,8 +47,8 @@ class Object
 		    	@results << [amount.to_i, file_line_type]
 		    end
 		    puts @results.map { |r| "%8d %s" % r }.join("\n")
-
-		  	@tmpfile  = nil
+		  	
+		  	@tmpfile, @results = nil
 		  end
 		end
 	end
