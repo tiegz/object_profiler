@@ -21,14 +21,21 @@ Or install it yourself as:
 
     $ gem install object_profiler
 
-## Usage
+## Usage (Rails)
 
-TODO: Write usage instructions here
+  Add to your `config/application.rb`:
+
+    require 'object/profiler/middleware'
+    config.middleware.use(::Object::Profiler::Middleware)
+
+  Run the server and tail the output:
+
+    sudo rails s
 
 ## Middleware
 
-  require 'object/profiler/middleware'
-  config.middlewares.use(Object::Profiler::Middleware)
+    require 'object/profiler/middleware'
+    config.middlewares.use(Object::Profiler::Middleware)
 
 ## Contributing
 
