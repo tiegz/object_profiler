@@ -2,6 +2,11 @@
 
 TODO: Write a gem description
 
+## Requirements
+
+1. A platform that supports DTrace (Solaris, OSX, etc)
+2. root access (required by DTrace)
+
 ## Installation
 
 Add this line to your application's Gemfile:
