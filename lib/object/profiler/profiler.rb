@@ -37,9 +37,8 @@ class Object
 		  end
 
 		  def report
-		    puts "\n\n\nReport (#{@tmpfile.path}):"
+		    puts "\n\nObject::Profiler Report (#{@tmpfile.path}):"
 		    @tmpfile.rewind
-		    puts "FILE SIZE IS #{@tmpfile.size}"
 		    
 		    # TODO: This is only to reverse the order of line & count... necessary?
 		    results = []

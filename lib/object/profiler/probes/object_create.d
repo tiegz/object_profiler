@@ -8,10 +8,3 @@ ruby*:::object-create
     this->val = strjoin(this->val, copyinstr(arg0));
     @objs[this->val] = count(); 
 }
-
-
-dtrace:::END
-{
-	printf("\n");
-	printa("%s %@d\n", @objs);
-}
