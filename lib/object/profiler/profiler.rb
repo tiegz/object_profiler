@@ -7,48 +7,58 @@ require 'tempfile'
 class Object
 	class Profiler
 		class << self
-		  def track
+		  def track(output)
 		  	raise "Object::Profiler.track requires a block." unless block_given?
 
-		  	start
+		  	enable
 		  	result = yield
-		  	stop
-		  	report
+		  	disable
+		  	report(output)
 
 		  	return result
 		  end
 
-		  def start
-		  	raise "Already tracking ruby process #@pid!" if @pid
+		  def enable
+		  	return if enabled?
 
 		    @tmpfile = Tempfile.new("object::profiler")
-		    @results = []
+		    @report = nil
 		    probe = File.join(__dir__, 'probes', 'object_create.d')
-		    @pid = Process.spawn "dtrace -s #{probe} -p #{$$} -o #{@tmpfile.path}"
+		    @pid = Process.spawn "dtrace -q -s #{probe} -p #{$$} -o #{@tmpfile.path}"
 
 		    # Better way to wait for dtrace to work?
 		    sleep 1
-		  end
+ 		  end
 
-		  def stop
+ 		  def enabled?
+ 		  	!!@pid
+ 		  end
+
+		  def disable
+		  	return unless enabled?
+
 		    Process.kill("SIGINT", @pid)
 		    Process.wait
 		  	@pid = nil
 		  end
 
-		  def report
-		    puts "\n\nObject::Profiler Report (#{@tmpfile.path}):"
-		    @tmpfile.rewind
+		  def report(io)
+		    if !@report
+			    @tmpfile.rewind
 		    
-		    # TODO: This is only to reverse the order of line & count... necessary?
-		    results = []
-		    @tmpfile.read.strip.lines.each do |line|
-		    	file_line_type, amount = line.split(" ")
-		    	@results << [amount.to_i, file_line_type]
-		    end
-		    puts @results.map { |r| "%8d %s" % r }.join("\n")
-		  	
-		  	@tmpfile, @results = nil
+			    # TODO: Could this be done in the provider instead?
+			    results = []
+			    @tmpfile.read.strip.lines.each do |line|
+			    	file_line_type, amount = line.split(" ")
+			    	results << [amount.to_i, file_line_type]
+			    end
+		    	@report = results.map { |r| "%10d %s" % r }
+		    	@report << "%10d %s" % [results.map(&:first).inject(0, &:+), "Total"]
+		    	@report.unshift "\n%10s %s" % ["Amount", "File:Line:Class"]
+
+				end
+				io ||= STDOUT
+		    io.puts @report.join("\n")
 		  end
 		end
 	end
