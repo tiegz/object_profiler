@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["tieg.zaharia@gmail.com"]
   spec.description   = %q{Object::Profiler uses DTrace probes in Ruby 2.0 to help instrument your code.}
   spec.summary       = %q{Object::Profiler uses DTrace probes in Ruby 2.0 to help instrument your code.}
-  spec.homepage      = ""
+  spec.homepage      = "http://github.com/tiegz/object_profiler"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
