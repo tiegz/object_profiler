@@ -7,7 +7,7 @@ require 'tempfile'
 class Object
   class Profiler
     class << self
-      def track(output)
+      def track(output=nil)
         raise "Object::Profiler.track requires a block." unless block_given?
 
         enable
@@ -42,7 +42,7 @@ class Object
         @pid = nil
       end
 
-      def report(io)
+      def report(io=nil)
         if !@report
           @tmpfile.rewind
         
